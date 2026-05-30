@@ -58,7 +58,8 @@ Examples, case studies, and hands-on activities should draw from these domains u
 5. **Never proceed with assumptions** — when in doubt, ask one focused clarifying question
 6. **Before creating any output file** — present the full plan to the owner and get explicit confirmation first
 7. **Never rebuild the whole document** when only one part needs to change — operate on the specific module or section only
-8. **Always apply constraints** (see below) regardless of what is being built
+8. **Update `index.md` whenever a project is completed** — add links to all new output files and update their status; keep the index as an accurate, navigable project map
+9. **Always apply constraints** (see below) regardless of what is being built
 
 ---
 
