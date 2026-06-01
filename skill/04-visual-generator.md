@@ -148,6 +148,12 @@ Once the diagram is generated, insert it into the Skill 3 output file (`03-*modu
 
 After embedding all approved diagrams, remove unapproved sections from the Skill 4 output file (`04-*visuals.md`), keeping only the approved ones.
 
+### Automatic insertion on approval
+When all diagrams for a project are generated and the Skill 4 output is set to `#review: APPROVED`, the AI automatically:
+1. Inserts each approved diagram (caption + Mermaid block) into the Skill 3 output file, replacing every `[VISUAL PENDING — Skill 4]` placeholder
+2. Removes all remaining `- **Visual Aid:** ❌ No` markers from the Skill 3 output file (no longer needed once the module content is finalized)
+3. Removes all `- **Visual Aid:** ✅ Yes — [description]` lines that were replaced by diagrams in step 1
+
 ---
 
 ## Example: Full Sample Prompt (Copy-Paste Ready)

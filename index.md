@@ -27,6 +27,9 @@
 
 | File | Topic |
 |------|-------|
+| [input/glue, athena and airflow.txt](./input/glue,%20athena%20and%20airflow.txt) | 4-week course outline with links and exam |
+| [input/handson.txt](./input/handson.txt) | E-Commerce Lakehouse hands-on project (Week 1–4 activities) |
+| [input/capstone.txt](./input/capstone.txt) | Enterprise Data Governance Capstone spec |
 
 ---
 

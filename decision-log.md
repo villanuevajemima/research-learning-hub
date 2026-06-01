@@ -9,3 +9,4 @@
 | 5 | 2026-06-01 | Quiz distribution: 10 questions across 10 distinct days covering Medallion, Crawlers, Iceberg, DynamicFrame, DQDL/Quarantine, Airflow, XComs, IAM, Athena Workgroups, Iceberg MERGE | Ensures no single day dominates and every major pipeline phase is assessed | AI (Instructional Designer) |
 | 6 | 2026-06-01 | Course-level hands-on rubric (7 criteria) chosen over individual day rubrics | Covers all pipeline phases in a single evaluation framework at 75% passing threshold | AI (Instructional Designer) |
 | 7 | 2026-06-01 | Project completed — all skills finalized | All 6 skills complete. Owner confirmed at Checkpoint 3. | Owner |
+| 8 | 2026-06-01 | Visual aid markers removed from Skill 3 output; Skill 4 updated to auto-clean markers on approval | Owner confirmed final cleanup of all `✅ Yes` and `❌ No` visual aid markers after approval | Owner |

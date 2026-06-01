@@ -22,7 +22,7 @@ Owner final notes (optional): [Any wrap-up notes, post-mortem observations, or n
 
 Instructions:
 
-1. READ the current `/index.md` and `/decision-log.md` for the project.
+1. READ the current `/index.md`, `/decision-log.md`, and `/project-instructions.md` for the project.
 
 2. UPDATE all output files in `/outputs/[topic]/` from `#review: DRAFT` to `#review: APPROVED`.
    - Read each file, change the first line, and write it back.
@@ -30,10 +30,18 @@ Instructions:
    - If any file says `#review: NEEDS FIX`, ask the owner to confirm it is resolved before changing to `#review: APPROVED`.
 
 3. UPDATE `/index.md`:
+   - Ensure the **Inputs** section lists all files found in the `input/` directory with file paths and topic descriptions. If the section is empty, populate it.
    - Change the Status column for every output file in this project from `#review: DRAFT` to `#review: APPROVED`.
+   - Ensure the **Skills** table includes all 7 skills (1–6 + xx End Workflow) with correct file links.
    - If the project has a decision log section, make sure the link is present.
 
-4. APPEND a final entry to `/decision-log.md`:
+4. UPDATE `/project-instructions.md` (if needed):
+   - Ensure the **Skills Available** table includes Skill xx (End Workflow) with its purpose, input, and output.
+   - Ensure the **Descriptor Mapping** table includes Skill xx (`xx` → `end-workflow`).
+   - Ensure the **Section Headers** table includes Skill xx (`## Completion Summary`).
+   - Ensure the **Workflow** diagram includes Skill xx after Checkpoint 3.
+
+5. APPEND a final entry to `/decision-log.md`:
    - Date: today's date
    - Decision: "Project completed — all skills finalized"
    - Rationale: "All 6 skills complete. Owner confirmed at Checkpoint 3."
@@ -80,7 +88,8 @@ Constraints:
 | Output | Description |
 |--------|-------------|
 | **Updated output files** | All `#review: DRAFT` tags changed to `#review: APPROVED` |
-| **Updated index.md** | Status column reflects all approved files |
+| **Updated index.md** | Inputs, Skills, Outputs, and Decision Logs sections all populated and correct |
+| **Updated project-instructions.md** | Skills table, descriptor mapping, section headers, and workflow diagram all reference Skill xx |
 | **Updated decision-log.md** | Final completion entry appended |
 | **Completion summary** | Table of all skills with status, total file count, and date |
 
