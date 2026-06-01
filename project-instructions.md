@@ -60,6 +60,7 @@ Examples, case studies, and hands-on activities should draw from these domains u
 7. **Never rebuild the whole document** when only one part needs to change — operate on the specific module or section only
 8. **Update `index.md` whenever a project is completed** — add links to all new output files and update their status; keep the index as an accurate, navigable project map
 9. **Always apply constraints** (see below) regardless of what is being built
+10. **When Skill 1 (Research Synthesizer) is triggered** — before executing, ask the owner whether to overwrite `/decision-log.md` and `/index.md` with fresh templates (clear data rows, keep headers/table structure), or keep existing entries. This fires at the very start of the sequence before any synthesis begins.
 
 ---
 
@@ -106,7 +107,7 @@ Use the correct skill for each task. If unsure which applies, ask before proceed
 
 | Skill | Purpose | Input | Output |
 |---|---|---|---|
-| **Skill 1: Research Synthesizer** | Synthesize existing sources into structured insights | Owner's collected sources | Concept map + key insights + suggested topic list |
+| **Skill 1: Research Synthesizer** | Synthesize existing sources into structured insights. Starts with decision gate: confirm index.md and decision-log.md state before proceeding. | Owner's collected sources | Concept map + key insights + suggested topic list |
 | **Skill 2: Learning Path Architect** | Build the full day-by-day learning path skeleton | Confirmed topic list + audience + duration | Structured learning path with visual flags |
 | **Skill 3: Module Content Builder** | Write content for one module at a time | Single day/module | What / How / Why + supplemental reading links |
 | **Skill 4: Visual Generator** | Generate diagrams for flagged modules | Concept needing a visual | Diagram type recommendation + generated visual |
@@ -152,6 +153,9 @@ ASSESSMENT
 
 ```
 Owner brings sources or topic
+        ↓
+🔄 DECISION GATE — Overwrite /decision-log.md and /index.md?
+(If yes: clear data rows, keep headers. If no: keep existing entries.)
         ↓
 Skill 1: Research Synthesizer
         ↓

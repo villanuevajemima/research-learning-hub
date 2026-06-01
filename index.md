@@ -27,10 +27,33 @@
 | File | Topic |
 |------|-------|
 | [input/01-research-prompt.md](./input/01-research-prompt.md) | American History source prompt |
+| [input/01-springboot-mongo.md](./input/01-springboot-mongo.md) | Spring Boot + MongoDB source prompt |
 
 ---
 
 ## Outputs
+
+### American History (current project)
+
+| # | Skill | File | Status |
+|---|-------|------|--------|
+| 1 | Research Synthesizer | [outputs/american-history/01-american-history-synthesis.md](./outputs/american-history/01-american-history-synthesis.md) | #review: DRAFT |
+| 2 | Learning Path Architect | [outputs/american-history/02-american-history-learning-path.md](./outputs/american-history/02-american-history-learning-path.md) | #review: DRAFT |
+| 3 | Module Content Builder | — | pending |
+| 4 | Visual Generator | — | pending |
+| 5 | Quiz Generator | — | pending |
+| 6 | Rubric Generator | — | pending |
+
+### Spring Boot + MongoDB (current project)
+
+| # | Skill | File | Status |
+|---|-------|------|--------|
+| 1 | Research Synthesizer | [outputs/springboot-mongo/01-springboot-mongo-synthesis.md](./outputs/springboot-mongo/01-springboot-mongo-synthesis.md) | #review: DRAFT |
+| 2 | Learning Path Architect | [outputs/springboot-mongo/02-springboot-mongo-learning-path.md](./outputs/springboot-mongo/02-springboot-mongo-learning-path.md) | #review: please check |
+| 3 | Module Content Builder | [outputs/springboot-mongo/03-springboot-mongo-module-content.md](./outputs/springboot-mongo/03-springboot-mongo-module-content.md) | #review: DRAFT |
+| 4 | Visual Generator | — | pending |
+| 5 | Quiz Generator | — | pending |
+| 6 | Rubric Generator | — | pending |
 
 ### AWS Serverless Data Analytics (previous project)
 
@@ -51,3 +74,4 @@
 | Scope | File |
 |-------|------|
 | Full project | [decision-log.md](./decision-log.md) |
+| American History | [outputs/american-history/decision-log.md](./outputs/american-history/decision-log.md) |
