@@ -19,6 +19,7 @@
 | 4 | Visual Generator | [skill/04-visual-generator.md](./skill/04-visual-generator.md) |
 | 5 | Quiz Generator | [skill/05-quiz-generator.md](./skill/05-quiz-generator.md) |
 | 6 | Rubric Generator | [skill/06-rubric-generator.md](./skill/06-rubric-generator.md) |
+| xx | End Workflow | [skill/xx-end-workflow.md](./skill/xx-end-workflow.md) |
 
 ---
 
@@ -26,46 +27,21 @@
 
 | File | Topic |
 |------|-------|
-| [input/01-research-prompt.md](./input/01-research-prompt.md) | American History source prompt |
-| [input/01-springboot-mongo.md](./input/01-springboot-mongo.md) | Spring Boot + MongoDB source prompt |
 
 ---
 
 ## Outputs
 
-### American History (current project)
+### Glue, Athena & Airflow (current project)
 
 | # | Skill | File | Status |
 |---|-------|------|--------|
-| 1 | Research Synthesizer | [outputs/american-history/01-american-history-synthesis.md](./outputs/american-history/01-american-history-synthesis.md) | #review: DRAFT |
-| 2 | Learning Path Architect | [outputs/american-history/02-american-history-learning-path.md](./outputs/american-history/02-american-history-learning-path.md) | #review: DRAFT |
-| 3 | Module Content Builder | — | pending |
-| 4 | Visual Generator | — | pending |
-| 5 | Quiz Generator | — | pending |
-| 6 | Rubric Generator | — | pending |
-
-### Spring Boot + MongoDB (current project)
-
-| # | Skill | File | Status |
-|---|-------|------|--------|
-| 1 | Research Synthesizer | [outputs/springboot-mongo/01-springboot-mongo-synthesis.md](./outputs/springboot-mongo/01-springboot-mongo-synthesis.md) | #review: DRAFT |
-| 2 | Learning Path Architect | [outputs/springboot-mongo/02-springboot-mongo-learning-path.md](./outputs/springboot-mongo/02-springboot-mongo-learning-path.md) | #review: please check |
-| 3 | Module Content Builder | [outputs/springboot-mongo/03-springboot-mongo-module-content.md](./outputs/springboot-mongo/03-springboot-mongo-module-content.md) | #review: DRAFT |
-| 4 | Visual Generator | — | pending |
-| 5 | Quiz Generator | — | pending |
-| 6 | Rubric Generator | — | pending |
-
-### AWS Serverless Data Analytics (previous project)
-
-| # | Skill | File | Status |
-|---|-------|------|--------|
-| 1 | Research Synthesizer | [outputs/01-aws-serverless-data-analytics-synthesis.md](./outputs/01-aws-serverless-data-analytics-synthesis.md) | TBD |
-| 2 | Learning Path Architect | [outputs/02-aws-serverless-data-analytics-learning-path.md](./outputs/02-aws-serverless-data-analytics-learning-path.md) | TBD |
-| 3 | Module Content Builder | [outputs/03-aws-serverless-data-analytics-module-content.md](./outputs/03-aws-serverless-data-analytics-module-content.md) | TBD |
-| 4 | Visual Generator | [outputs/04-aws-serverless-data-analytics-visuals.md](./outputs/04-aws-serverless-data-analytics-visuals.md) | TBD |
-| 5 | Quiz Generator | [outputs/05-aws-serverless-data-analytics-quiz.md](./outputs/05-aws-serverless-data-analytics-quiz.md) | TBD |
-| 6 | Rubric Generator | [outputs/06-aws-serverless-data-analytics-rubric.md](./outputs/06-aws-serverless-data-analytics-rubric.md) | TBD |
-
+| 1 | Research Synthesizer | [outputs/glue-athena-airflow/01-glue-athena-airflow-synthesis.md](./outputs/glue-athena-airflow/01-glue-athena-airflow-synthesis.md) | #review: APPROVED |
+| 2 | Learning Path Architect | [outputs/glue-athena-airflow/02-glue-athena-airflow-learning-path.md](./outputs/glue-athena-airflow/02-glue-athena-airflow-learning-path.md) | #review: APPROVED |
+| 3 | Module Content Builder | [outputs/glue-athena-airflow/03-glue-athena-airflow-module-content.md](./outputs/glue-athena-airflow/03-glue-athena-airflow-module-content.md) | #review: APPROVED |
+| 4 | Visual Generator | [outputs/glue-athena-airflow/04-glue-athena-airflow-visuals.md](./outputs/glue-athena-airflow/04-glue-athena-airflow-visuals.md) | #review: APPROVED |
+| 5 | Quiz Generator | [outputs/glue-athena-airflow/05-glue-athena-airflow-quiz.md](./outputs/glue-athena-airflow/05-glue-athena-airflow-quiz.md) | #review: APPROVED |
+| 6 | Rubric Generator | [outputs/glue-athena-airflow/06-glue-athena-airflow-rubric.md](./outputs/glue-athena-airflow/06-glue-athena-airflow-rubric.md) | #review: APPROVED |
 
 ---
 
@@ -74,4 +50,3 @@
 | Scope | File |
 |-------|------|
 | Full project | [decision-log.md](./decision-log.md) |
-| American History | [outputs/american-history/decision-log.md](./outputs/american-history/decision-log.md) |

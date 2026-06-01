@@ -58,22 +58,85 @@ Examples, case studies, and hands-on activities should draw from these domains u
 5. **Never proceed with assumptions** — when in doubt, ask one focused clarifying question
 6. **Before creating any output file** — present the full plan to the owner and get explicit confirmation first
 7. **Never rebuild the whole document** when only one part needs to change — operate on the specific module or section only
-8. **Update `index.md` whenever a project is completed** — add links to all new output files and update their status; keep the index as an accurate, navigable project map
+8. **Update `index.md` and `decision-log.md` after each skill completes** — add links to new output files, update statuses, and log decisions made during that skill; keep both files as an accurate, navigable project map
 9. **Always apply constraints** (see below) regardless of what is being built
 10. **When Skill 1 (Research Synthesizer) is triggered** — before executing, ask the owner whether to overwrite `/decision-log.md` and `/index.md` with fresh templates (clear data rows, keep headers/table structure), or keep existing entries. This fires at the very start of the sequence before any synthesis begins.
+
+---
+
+## How to Use the Skills (End-to-End Walkthrough)
+
+A full project follows this lifecycle. Below is the exact sequence and what happens at each step.
+
+### Step 1: Start a new project
+
+1. Create a new directory under `/outputs/` with a topic slug (e.g., `glue-athena-airflow/`)
+2. Place source material (research, notes, outlines) in the project's `input/` folder
+3. The owner tells the AI which topic to build, or which skill to run
+
+### Step 2: Run the skills in order
+
+Each skill is triggered by telling the AI "run Skill N" or "do Skill N". The AI will ask the owner questions as needed (e.g., audience, duration, visuals). After each skill completes:
+
+1. The AI writes the output file to `/outputs/[topic]/[sequence]-[topic]-[skill].md`
+2. The AI updates `/index.md` — adds a link to the new file with status `#review: DRAFT`
+3. The AI logs any decisions made during the skill in `/decision-log.md`
+
+### Step 3: Review and update status tags
+
+Every output file starts with a `#review:` tag at the very top. The owner changes this tag to track progress:
+
+#### Manual edit (done by owner in any text editor)
+
+Open the output file and change the first line:
+
+```
+#review: DRAFT    →    #review: APPROVED
+#review: DRAFT    →    #review: NEEDS FIX
+#review: NEEDS FIX →    #review: APPROVED
+```
+
+#### Ask the AI to change it
+
+Tell the AI: "Set [filename] to #review: [STATUS]". The AI will make the edit.
+
+### Step 4: Move through the checkpoints
+
+The workflow has three checkpoints where the owner must explicitly confirm before the AI proceeds:
+
+- **Checkpoint 1** — After Skill 1: owner confirms the topic list
+- **Checkpoint 2** — After Skill 2: owner confirms the learning path structure
+- **Checkpoint 3** — After Skill 6: owner does final review, validates links, confirms publish readiness
+
+The AI will pause at each checkpoint and wait for confirmation.
+
+### Step 5: Record decisions
+
+Any time the owner makes a choice during a skill (e.g., "remove these modules", "skip visuals on these days"), the AI adds a row to `/decision-log.md`. The owner can also add entries directly. Each row captures: date, decision, rationale, and who made it.
+
+### Step 6: Complete and publish
+
+After Checkpoint 3, all output files should show `#review: APPROVED`. The learning path is ready to publish or deliver.
 
 ---
 
 ## Review Process
 
 All skill outputs must be reviewed before publishing. Use `#review:` tags to track review status:
-- `#review: DRAFT` — initial output, pending review
-- `#review: NEEDS FIX` — issues identified, awaiting corrections
-- `#review: APPROVED` — reviewed and ready to publish
+
+| Tag | Meaning |
+|-----|---------|
+| `#review: DRAFT` | Initial output, pending review |
+| `#review: NEEDS FIX` | Issues identified, awaiting corrections |
+| `#review: APPROVED` | Reviewed and ready to publish |
 
 Each output file starts with a `#review:` line at the very top. The reviewer updates this tag as the review progresses.
 
 Inline review comments may also appear throughout a document using `#review:` within the content body (e.g., at the end of a line or as a standalone note). These inline comments flag specific items needing attention — the reviewer is expected to read and act on every `#review:` comment found in the file, not just the header tag.
+
+**To update a status tag:**
+- **Manually** — open the file and edit the first line (e.g., `#review: DRAFT` → `#review: APPROVED`)
+- **Via AI** — say "Set [filename] to #review: APPROVED" and the AI edits the first line
 
 ---
 
@@ -113,6 +176,7 @@ Use the correct skill for each task. If unsure which applies, ask before proceed
 | **Skill 4: Visual Generator** | Generate diagrams for flagged modules | Concept needing a visual | Diagram type recommendation + generated visual |
 | **Skill 5: Quiz Generator** | Generate end-of-path assessment | Full completed learning path | 10-item multiple choice quiz covering all days |
 | **Skill 6: Rubric Generator** | Generate quiz rubric and/or hands-on activity rubric | Quiz content + hands-on activity description | Scored rubric with labels, descriptors, and recommended actions |
+| **Skill xx: End Workflow** | Finalize project — update status tags, index, decision log, and generate completion summary | All 6 prior outputs + owner confirmation | Approved output files, finalized index + decision log, completion summary |
 | **Skill 7: Capstone Generator** | *(Future — not yet active)* | TBD | TBD |
 
 ---
@@ -177,6 +241,9 @@ Skill 6: Rubric Generator
 ✅ CHECKPOINT 3 — Owner does final review
 + Owner validates all links manually
         ↓
+Skill xx: End Workflow
+(Automates: status tag updates, index.md, decision-log.md, completion summary)
+        ↓
 DONE
 ```
 
@@ -208,6 +275,7 @@ Each skill produces its own standalone markdown file. Skills are never appended 
 | Skill 4: Visual Generator | `04` | `visuals` |
 | Skill 5: Quiz Generator | `05` | `quiz` |
 | Skill 6: Rubric Generator | `06` | `rubric` |
+| Skill xx: End Workflow | `xx` | `end-workflow` |
 
 ### Examples
 
@@ -229,6 +297,7 @@ Each skill file uses the section header matching its output:
 | Skill 4 | `## Visuals` |
 | Skill 5 | `## Quiz` |
 | Skill 6 | `## Rubrics` |
+| Skill xx | `## Completion Summary` |
 
 Every file follows this template:
 

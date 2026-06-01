@@ -29,12 +29,13 @@ Anyone responsible for:
 |---|---|
 | `README.md` | This file — start here |
 | `project-instructions.md` | The AI instructions — paste this into your Claude Project settings |
-| `skill-01-research-synthesizer.md` | Skill 1 — synthesize your sources into a concept map and topic list |
-| `skill-02-learning-path-architect.md` | Skill 2 — build the day-by-day learning path skeleton |
-| `skill-03-module-content-builder.md` | Skill 3 — write all module content (What / How / Why + reading links) |
-| `skill-04-visual-generator.md` | Skill 4 — generate Mermaid diagrams for flagged modules |
-| `skill-05-quiz-generator.md` | Skill 5 — generate the end-of-path quiz covering all days |
-| `skill-06-rubric-generator.md` | Skill 6 — generate quiz rubric and/or hands-on activity rubric |
+| `skill/01-research-synthesizer.md` | Skill 1 — synthesize your sources into a concept map and topic list |
+| `skill/02-learning-path-architect.md` | Skill 2 — build the day-by-day learning path skeleton |
+| `skill/03-module-content-builder.md` | Skill 3 — write all module content (What / How / Why + reading links) |
+| `skill/04-visual-generator.md` | Skill 4 — generate Mermaid diagrams for flagged modules |
+| `skill/05-quiz-generator.md` | Skill 5 — generate the end-of-path quiz covering all days |
+| `skill/06-rubric-generator.md` | Skill 6 — generate quiz rubric and/or hands-on activity rubric |
+| `skill/xx-end-workflow.md` | Skill xx — finalize project: update status tags, index, decision log, completion summary |
 
 ---
 
@@ -94,6 +95,9 @@ STEP 6 → Skill 6: Rubric Generator
 
               ↓ CHECKPOINT 3 — Final review + validate all links
 
+STEP 7 → Skill xx: End Workflow
+         Automates status tag updates, index, decision log, completion summary.
+
 DONE — Ready to publish or deliver
 ```
 
@@ -103,7 +107,7 @@ DONE — Ready to publish or deliver
 
 ## Output Structure & File Naming
 
-Every learning path run produces **one single markdown file** — all skills append to the same document. Nothing is scattered across multiple responses.
+Every skill produces its own standalone markdown file. Skills are never appended to a previous skill's file — each skill creates a new, independent file.
 
 ### Naming Convention
 ```
@@ -111,18 +115,22 @@ Every learning path run produces **one single markdown file** — all skills app
 ```
 
 | Part | Example |
-|---|---|
-| sequence | `01`, `02`, `03` |
+|---|---|---|
+| sequence | `01`, `02`, `03`, `xx` |
 | topic-slug | `airflow`, `data-pipelines`, `sql-fundamentals` |
-| descriptor | `training`, `onboarding`, `workshop`, `bootcamp` |
+| descriptor | `synthesis`, `learning-path`, `module-content`, `visuals`, `quiz`, `rubric`, `end-workflow` |
 
 ### Example Folder
 ```
 /outputs
-    └── 01-airflow-training
-    │       └── 01-airflow-training.md
-    └── 02-data-pipelines-onboarding
-            └── 02-data-pipelines-onboarding.md
+    └── glue-athena-airflow
+        ├── 01-glue-athena-airflow-synthesis.md
+        ├── 02-glue-athena-airflow-learning-path.md
+        ├── 03-glue-athena-airflow-module-content.md
+        ├── 04-glue-athena-airflow-visuals.md
+        ├── 05-glue-athena-airflow-quiz.md
+        ├── 06-glue-athena-airflow-rubric.md
+        └── xx-glue-athena-airflow-end-workflow.md
 ```
 
 > The file name is confirmed at the start of Skill 2 once the topic and title are known.
