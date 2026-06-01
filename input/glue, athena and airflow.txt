@@ -1,0 +1,149 @@
+AWS Glue & Athena: Data Management
+Course Description
+This 4 weeks course focuses on the governance and lifecycle management of a Data Lake. You will learn how to maintain a high-quality Data Catalog, manage schema evolution, enforce data quality rules, use Amazon Athena as a management tool to audit, do orchestration using Airflow and query governed datasets.
+Prerequisites
+SQL Foundations: Knowledge of DDL (Data Definition Language) like CREATE, ALTER, and DROP.
+Data Concepts: Basic understanding of schemas, data types, and primary keys.
+AWS Basics: IAM roles and S3 bucket management.
+Week 1: Storage Foundations & Lake Formation
+Day 1: S3 Topologies & The Medallion Architecture (Bronze/Silver/Gold).
+https://medium.com/@archie.kandala/the-medallion-architecture-bronze-silver-gold-and-why-your-data-pipeline-needs-structure-796808d045ba
+
+
+Day 2: Intro to AWS Glue Data Catalog & Crawlers.
+https://docs.aws.amazon.com/glue/latest/dg/start-data-catalog.html
+
+
+Day 3: AWS Lake Formation
+https://medium.com/@christopheradamson253/building-a-data-lake-with-aws-lake-formation-5a2e696240d7
+
+
+Day 4: Introduction to Apache Iceberg:
+https://www.datacamp.com/tutorial/apache-iceberg?utm_cid=19589720824&utm_aid=157098107015&utm_campaign=230119_1-ps-other~dsa-tofu~all_2-b2c_3-apac_4-prc_5-na_6-na_7-le_8-pdsh-go_9-nb-e_10-na_11-na&utm_loc=1011170-&utm_mtd=-c&utm_kw=&utm_source=google&utm_medium=paid_search&utm_content=ps-other~apac-en~dsa~tofu~tutorial~data-engineering&gad_source=1&gad_campaignid=19589720824&gbraid=0AAAAADQ9WsFIwdPGJ4cWo7ZM2_4zisDDI&gclid=Cj0KCQjw_IXQBhCkARIsADqELbJOxkbIh3pYp2qTYT9iNVIiifXrjo05dUZYhr7FY9STsbzASaf_Ma4aArPYEALw_wcB
+
+
+Day 5: Hands-on 1: Setting up the S3 Environment and Lake Formation Permissions.
+📚 Week 2: Data Transformation & Quality (Glue ETL)
+We are diving into AWS Glue, the powerhouse of serverless data integration. We will learn how to write Spark code, enforce data quality, and handle messy data before it breaks our downstream reports.
+Day 1: Spark Basics for Glue (DynamicFrames vs DataFrames)
+Description: AWS Glue uses Apache Spark under the hood. You need to understand the difference between standard Spark DataFrames and AWS Glue’s custom DynamicFrames. DynamicFrames are designed to handle unexpected schema changes and messy data without crashing your job.
+Reference: AWS Glue: The DynamicFrame Class
+Day 2: Implementing AWS Glue Data Quality (DQDL)
+Description: You shouldn't write hundreds of lines of Python just to check if a column is null. AWS Glue Data Quality uses DQDL (Data Quality Definition Language) to declaratively evaluate your data against business rules in transit.
+Reference: AWS Glue: Data Quality Definition Language (DQDL)
+Day 3: Handling "Bad Data": Branching logic for Quarantining
+Description: When data fails a DQDL check, you don't just delete it. You must write branching logic in your ETL script to route bad records into a "Quarantine" or "Dead Letter" S3 bucket for data stewards to review.
+Reference: AWS Big Data Blog: Identifying and Quarantining Bad Data
+Day 4: Performance Tuning: Partitioning and Compression
+Description: If you dump raw data into a single massive file, Athena will take forever to query it. We will cover logical partitioning (e.g., partitioning by year and month) and compressing data into Parquet formats to optimize performance and reduce AWS costs.
+Reference: AWS Prescriptive Guidance: Tuning Apache Spark in Glue
+Day 5: Hands-on 2 (Writing a Glue Job with EvaluateDataQuality)
+
+⚙️ Week 3: Orchestration with Amazon MWAA
+ETL scripts are useless if someone has to click "Run" every day. We will use Amazon Managed Workflows for Apache Airflow (MWAA) to orchestrate our pipelines.
+Day 1: Airflow Concepts: DAGs, Operators, and Sensors
+Description: Learn the core building blocks of Airflow. A DAG (Directed Acyclic Graph) is your pipeline blueprint. Operators execute the work (like starting a Glue job), and Sensors wait for conditions (like a file landing in S3).
+Reference: Apache Airflow Core Concepts
+Day 2: MWAA Environment Setup & Requirements.txt
+Description: Setting up MWAA requires specific environment configurations. Learn how to manage Python dependencies using requirements.txt and package custom Airflow plugins for your managed cluster.
+Reference: AWS: Working with DAGs and Python dependencies in MWAA
+Day 3: Advanced DAGs: Using XComs and Airflow Variables
+Description: Airflow tasks run in isolation. If Task A gets a Job ID that Task B needs, you must use XComs (Cross-Communications) to pass that metadata. We will also cover Variables for environment configuration.
+Reference: Astronomer Guide: Passing Data Between Tasks (XComs)
+Day 4: Error Handling: Retries, Callbacks, and Alerts
+Description: Pipelines fail—it's a fact of data engineering. You will learn how to configure task-level retries, set timeouts, and use callbacks to trigger Slack or Email alerts when a critical DAG fails.
+Reference: Astronomer Guide: Error Notifications in Airflow
+Day 5: Hands-on 3 (Building an MWAA DAG)
+
+📊 Week 4: Analytics, Visualization & Capstone Prep
+Data is only valuable if the business can see it. We will unlock advanced Athena queries, establish strict metadata documentation, and visualize pipeline health.
+Day 1: Athena Workgroups & Cost Management
+Description: Athena charges per terabyte scanned. A bad SQL query can cost a fortune. You will learn how to set up Athena Workgroups to enforce data-scanning limits and isolate query environments between the Data Engineering and Analytics teams.
+Reference: AWS: Managing Queries and Controlling Costs with Workgroups
+Day 2: SQL for Iceberg: MERGE, UPDATE, and Time Travel
+Description: Because we are using Apache Iceberg, Athena becomes more than just a read-only tool. Learn how to execute powerful Data Manipulation Language (DML) queries, like UPSERTs (MERGE INTO) and querying historical snapshots (Time Travel).
+Reference: AWS: Querying Iceberg Data Manipulation
+Day 3: Data Dictionary & Metadata Best Practices
+Description: Documentation is a core engineering requirement. A Data Dictionary acts as the translation layer between technical schemas and business terminology, ensuring users know exactly what cust_act_dt actually means.
+Reference: Atlan: Data Dictionary 2026 Implementation Best Practices
+Day 4: Building Data Health Dashboards in QuickSight
+Description: Operational metadata is critical. You will learn how to connect Amazon QuickSight to your AWS Glue Data Quality outputs to visualize the health of your pipelines (e.g., tracking the percentage of missing values over time).
+Reference: AWS Blog: Streamlining Dataset Management & Insights
+Day 5: Quicksight Dashboard
+
+Capstone:
+Establish a Governed Data Lake for e-commerce transactions. You will manage the ingestion of raw data, enforce strict quality rules, optimize the storage for Athena queries using the Apache Iceberg format, and set up a data management dashboard.
+
+Link: [Capstone] Glue, Athena and Airflow training
+
+Exam: AWS Glue & Athena Data Management
+Target Audience: Junior Data Engineers
+Passing Score: 80% (8/10)
+
+Instructions: Select the best answer for each question.
+1. A junior engineer runs a Glue Crawler on an S3 bucket containing partitioned Parquet files. After the crawler finishes, Athena shows the table but no data is returned. What is the most likely cause?
+A) The crawler did not have 's3:ListBucket' permissions.
+B) The crawler was not configured to add new partitions to the catalog.
+C) The Parquet files are encrypted with a key the crawler cannot access.
+D) Athena does not support partitioned Parquet files.
+2. Which AWS Glue feature should be used to enforce that a 'price' column must always be a positive number before the data is moved to a production S3 bucket?
+A) Glue Custom Classifiers
+B) Glue Schema Registry
+C) Glue Data Quality (DQDL)
+D) Athena Workgroups
+3. An Athena user is hitting a 'Query Limit Exceeded' error. How can an administrator prevent a single user from consuming the entire monthly budget while allowing others to continue working?
+A) Set up IAM policies with S3 size limits.
+B) Configure Athena Workgroups with data usage limits.
+C) Use Lake Formation to revoke SELECT permissions.
+D) Decrease the number of partitions in the Glue Catalog.
+4. In an Apache Airflow DAG running on MWAA, which operator is specifically designed to trigger a Glue ETL job and wait for its completion?
+A) GlueCrawlerOperator
+B) S3ToGlueOperator
+C) GlueJobOperator
+D) AthenaOperator
+5. What is the primary benefit of using Apache Iceberg format in AWS Glue compared to standard Parquet files?
+A) Iceberg files are smaller and compress better.
+B) Iceberg supports ACID transactions and row-level updates/deletes.
+C) Iceberg is a required format for Athena queries.
+D) Iceberg removes the need for an IAM role.
+6. A Glue Job is failing with an 'Out of Memory' (OOM) error while processing a large number of small files. Which Glue-specific optimization should be used to solve this?
+A) Increase the number of DPUs (Worker Type).
+B) Enable 'useS3ListImplementation' in the script.
+C) Enable 'Grouping' in the Glue DynamicFrame.
+D) Convert the input files to JSON before processing.
+7. Which tool allows an administrator to grant a user permission to see only specific columns in an Athena table without creating separate views?
+A) IAM Policy Condition keys
+B) S3 Bucket Policies
+C) AWS Lake Formation
+D) Glue Crawler Classifiers
+8. When building an Airflow DAG to manage a Glue pipeline, what is the purpose of an 'XCom'?
+A) To store the Glue script in a secure database.
+B) To pass small amounts of metadata (like a JobRunId) between tasks.
+C) To encrypt the connection between Airflow and Glue.
+D) To trigger the DAG automatically when a file arrives in S3.
+9. A Glue Crawler identifies a CSV file but marks all columns as 'string' even though some are clearly 'int'. How can you fix this most efficiently for future crawls?
+A) Manually edit the table in the Glue Catalog after every crawl.
+B) Create a Custom Classifier with a specific schema definition.
+C) Use a Glue Job to cast the strings to integers.
+D) Change the file extension from .csv to .parquet.
+10. In the context of the 'Source of Truth,' why is it recommended to use Athena as a management tool for auditing the Data Catalog?
+A) It is the only way to see if data exists in S3.
+B) It allows you to run SQL-based checks to verify schema consistency and data presence across multiple tables.
+C) Athena automatically fixes broken schemas it discovers.
+D) Querying with Athena is free for metadata-only checks.
+
+Answer Key (For Facilitator Use Only)
+B (Athena requires metadata in the catalog to map S3 paths to results).
+C (DQDL is specifically for data validation rules).
+B (Workgroups are the primary cost-control mechanism for Athena).
+C (GlueJobOperator handles job execution and status monitoring).
+B (ACID transactions and row-level deletes are Iceberg's "killer features").
+C (Grouping reduces the overhead caused by many small files).
+C (Lake Formation is for fine-grained column/row security).
+B (XComs facilitate task-to-task communication in Airflow).
+B (Classifiers provide the schema template for the crawler).
+B (SQL is the best language for verifying large-scale data consistency).
+
+
+
+

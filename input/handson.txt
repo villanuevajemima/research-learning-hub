@@ -1,0 +1,56 @@
+🛠️ Unified Hands-On Project: The E-Commerce Lakehouse
+Data Source
+Dataset: Olist Brazilian E-Commerce Dataset (Kaggle)
+Setup: You will specifically use olist_orders_dataset.csv and olist_order_payments_dataset.csv.
+Objective and Project Background
+Your company, Olist, is experiencing rapid growth, but executives are complaining that sales reports are inaccurate and delayed. Your objective is to build an automated, Medallion-architecture data pipeline. You will secure the raw data, clean it, orchestrate the daily loads, and serve it to a final executive dashboard.
+Business Requirements
+Stakeholders: Chief Operating Officer (COO) and VP of Sales.
+Business Objective: Monitor daily revenue and identify bottlenecks in the delivery pipeline without exposing customer PII to the analytics team.
+Calculations: * Total Revenue: Sum of payment_value.
+Late Delivery Rate: Count of orders where order_delivered_customer_date > order_estimated_delivery_date divided by Total Orders.
+Scope: S3 provisioning, Lake Formation security, Glue ETL with DQDL, Airflow (MWAA) orchestration, and QuickSight visualization.
+
+📍 Week 1, Day 5: Storage & Security Foundation
+The goal this week is to land the data and secure it.
+Technical Workflow:
+Create an S3 bucket with three folders: bronze/, silver/, and gold/.
+Upload the raw CSVs into the bronze/ folder.
+Run an AWS Glue Crawler to catalog the Bronze tables.
+Use AWS Lake Formation to grant SELECT access to a "BI Analyst" role, but explicitly exclude/mask the customer_id to protect privacy.
+Deliverables: An S3 bucket structure, a populated Glue Data Catalog, and a Lake Formation column-level security policy.
+Instructions for Testing: Query the Bronze table in Athena using the BI Analyst role. If you can see the customer_id, your security policy failed. If you get a permission error on that specific column but can see the rest of the data, you pass!
+
+📍 Week 2, Day 5: Data Quality & Transformation
+The goal this week is to clean the Bronze data and move it to Silver.
+Technical Workflow:
+Author an AWS Glue PySpark job.
+Read the Bronze orders and payments tables.
+Apply Glue EvaluateDataQuality (DQDL): Drop any rows where payment_value is less than 0, or where order_status is NULL.
+Join the tables and write the cleaned, passing data to the silver/ S3 folder in Parquet format.
+Deliverables: A tested PySpark script and a populated Silver bucket containing clean Parquet files.
+Instructions for Testing: Manually inject a negative payment value (e.g., -50.00) into your raw CSV. Run the Glue job. Check your Silver Parquet files in Athena; the negative value should be completely filtered out.
+
+📍 Week 3, Day 5: Pipeline Orchestration
+The goal this week is to automate the manual clicks.
+Technical Workflow:
+Create a DAG in Amazon MWAA (Airflow).
+Use an S3KeySensor to wait for a "trigger" file to land in the Bronze bucket (simulating daily data arrival).
+Trigger the Glue Job you wrote in Week 2 using the GlueJobOperator.
+Use the AthenaOperator to run a SQL MERGE statement, aggregating the Silver data into your final Gold Apache Iceberg table (grouped by Date and Order Status).
+Deliverables: A complete ecommerce_pipeline.py DAG file running successfully in the Airflow UI, with all tasks turning dark green.
+Instructions for Testing: Drop a dummy trigger file into S3. Watch the Airflow UI. The Sensor should succeed, followed by the Glue Job, and finally the Athena query. Check the Gold table to ensure the aggregations are updated.
+
+📍 Week 4, Day 5: The Final Dashboard
+The goal this week is to deliver business value.
+Technical Workflow:
+Connect Amazon QuickSight to your Athena gold database.
+Import the aggregated Iceberg table as your dataset.
+Build the visual components required by the stakeholders.
+Deliverables (Dashboard Acceptance Criteria):
+KPI Banner 1: Total Revenue (Sum of payments).
+KPI Banner 2: Late Delivery Rate (Percentage).
+Line Chart: Daily Revenue Trend over time.
+Pie Chart: Order Status breakdown (Delivered, Shipped, Canceled).
+Instructions for Testing: Present the dashboard to a peer or instructor. Verify that the dashboard filters work correctly when adjusting the date range, and ensure the numbers match a manual SUM() query run in Athena.
+

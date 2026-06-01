@@ -1,0 +1,51 @@
+Capstone Project: Enterprise Data Governance & Analytics Pipeline
+Project Goal
+Establish a Governed Data Lake for e-commerce transactions. You will manage the ingestion of raw data, enforce strict quality rules, optimize the storage for Athena queries using the Apache Iceberg format, and set up a data management dashboard.
+Kaggle Data Source
+Dataset: E-Commerce Behavior Data
+Validation: You must identify "corrupted" rows where the user_id is missing or the price is negative and quarantine them.
+Business Requirements
+Business Objective: Provide a "Certified" dataset for the Finance team that is audited for quality.
+Stakeholders: Data Governance Officer, Finance Analyst.
+Calculations:
+Data_Health_Score = (Valid_Records / Total_Records) * 100
+Monthly_Revenue_Audit = SUM(price)
+Scope: Implement a Silver-to-Gold layer architecture.
+Technical Workflow
+Airflow Task 1: Trigger Glue Crawler to find new daily files.
+Airflow Task 2: Run Glue ETL Job (Cleanse data, apply DQDL rules).
+Airflow Task 3: If DQ passes, move data to Gold S3 folder (Iceberg format).
+Airflow Task 4: Trigger Athena Query to update a "Daily Revenue Summary" table.
+
+Deliverables
+Feature Requirements: Schema versioning enabled; Data Quality results stored in S3.
+Acceptance Criteria: 
+Any record failing quality checks must be moved to a quarantine/ folder, not the final table.
+The DAG must complete "Green" end-to-end. 
+Quarantined data must be visible in a separate S3 prefix.
+Athena dashboard shows updated metrics only after the Airflow run finishes. 
+Dashboard and orchestration (Athena + QuickSight):
+Metrics: Quality Pass Rate, Total Records Managed, Storage Volume by Category.
+Visuals: A "Data Health" Gauge chart and a Table View showing the most recent schema changes.
+DAG Visualization: A clear graph showing task dependencies.
+Retry Logic: Configure tasks to retry 3 times on failure with 5-minute delays.
+XComs: Pass the row count of processed data from Glue to Athena via Airflow variables.
+Development Execution Tasks
+Set up Lake Formation to manage database permissions.
+Upload Airflow DAG script to the MWAA environment.
+Write a Glue Job that uses EvaluateDataQuality transform.
+Configure Athena Workgroups to prevent queries from scanning more than 10MB (for testing).
+Document the Data Dictionary in the Glue Catalog console.
+Create Athena Views for the final business metrics. 
+Instructions for Testing
+Quality Test: Purposely upload a file with negative prices; verify Athena does not see these records in the Gold table.
+Metadata Test: Run DESCRIBE [table_name] in Athena; ensure column comments are visible.
+Governance Test: Attempt to query a restricted column with a limited-access user.
+Best Practice & Supporting Documentation
+Data Compaction: Periodically run Glue "Optimize" on Iceberg tables to merge small files.
+Metadata: Always populate the comment field in Glue tables for better searchability.
+Solution (For Instructor)
+The instructor will verify that the Glue Data Catalog contains rich metadata (descriptions) and that the Athena View successfully excludes quarantined data based on the Quality Rules defined on Day 3.
+
+
+
