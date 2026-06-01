@@ -45,6 +45,9 @@ Instructions:
    - Flag any suggested topics that are NOT covered in the provided sources with a [GAP] tag
    - Sequence topics from foundational to advanced
    - Group topics by logical day/module if possible
+   - Standardize the columns: Day/Module, Topics, Phase, Tag
+   - Use the Phase column to group topics by architectural layer or pipeline phase (e.g., Storage, Catalog & Security, ETL & Quality, Orchestration, Analytics & Governance, Capstone)
+   - Use the Tag column for flags only — `[GAP]` for topics not in sources, leave as `—` otherwise
 
 ---
 
