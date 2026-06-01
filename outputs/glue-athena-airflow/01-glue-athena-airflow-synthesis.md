@@ -1,7 +1,7 @@
-#review: APPROVED
+#review: DRAFT
 
-# AWS Glue, Athena & Airflow — Serverless Data Analytics
-### 01 — glue-athena-airflow — Research Synthesis
+# AWS Glue, Athena & Airflow — Serverless Data Analytics Pipeline
+### 01 — glue-athena-airflow — Research Synthesizer
 
 ---
 
@@ -10,154 +10,204 @@
 ### Structured Outline
 
 ```
-AWS SERVERLESS DATA ANALYTICS PIPELINE
+AWS Serverless Data Analytics Pipeline
+├── Storage Layer (S3)
+│   ├── Medallion Architecture
+│   │   ├── Bronze — raw ingested data (CSV)
+│   │   ├── Silver — cleaned, validated Parquet
+│   │   └── Gold — aggregated Iceberg tables
+│   └── Partitioning & Compression
+│       ├── Hive-style partitioning (year=YYYY/month=MM)
+│       └── Parquet with Snappy/ZSTD
 │
-├── 1. STORAGE FOUNDATION (S3 + Medallion Architecture)
-│   ├── Bronze Layer — raw ingested data (CSV, JSON)
-│   ├── Silver Layer — cleaned, quality-checked data (Parquet)
-│   ├── Gold Layer — business-ready, aggregated data (Apache Iceberg)
-│   └── Partitioning & Compression strategies
+├── Metadata & Security
+│   ├── Glue Data Catalog
+│   │   ├── Crawlers — automatic schema discovery
+│   │   ├── Partition detection from S3 folder structure
+│   │   └── Custom Classifiers for schema hints
+│   ├── Lake Formation
+│   │   ├── Column-level security
+│   │   ├── Row-level filters
+│   │   └── Centralized permission management
+│   └── IAM Least-Privilege [GAP]
+│       ├── Separate roles per service
+│       └── Scoped inline policies
 │
-├── 2. DATA CATALOG & GOVERNANCE
-│   ├── AWS Glue Data Catalog — central metadata repository
-│   ├── AWS Glue Crawlers — schema discovery and catalog population
-│   ├── AWS Lake Formation — fine-grained access control, column-level security
-│   └── Apache Iceberg — ACID transactions, schema evolution, time travel
+├── Data Transformation (Glue ETL)
+│   ├── PySpark Fundamentals
+│   │   ├── DynamicFrames — schema-on-read, choice types
+│   │   └── DataFrames — fixed schema, Spark SQL
+│   ├── Data Quality (DQDL)
+│   │   ├── Declarative rules (IsComplete, IsUnique, CustomSql)
+│   │   └── EvaluateDataQuality transform
+│   ├── Quarantine Pattern
+│   │   ├── Dead Letter S3 prefix for failing records
+│   │   └── Metadata columns (dq_failed_rules, dq_timestamp)
+│   └── Performance
+│       ├── Grouping small files
+│       └── Worker type / DPU sizing
 │
-├── 3. DATA TRANSFORMATION & QUALITY (Glue ETL)
-│   ├── AWS Glue PySpark — serverless Spark execution
-│   │   ├── DynamicFrames vs DataFrames
-│   │   └── Grouping for small-file optimization
-│   ├── DQDL (Data Quality Definition Language)
-│   │   └── Declarative quality rules (e.g., payment_value > 0)
-│   └── Quarantine Pattern — routing bad records to Dead Letter S3 prefix
+├── Table Format
+│   └── Apache Iceberg
+│       ├── ACID transactions
+│       ├── Snapshot-based time travel
+│       ├── Schema evolution
+│       ├── MERGE / UPSERT (row-level)
+│       └── Hidden partitioning
 │
-├── 4. ORCHESTRATION (Amazon MWAA / Airflow)
+├── Orchestration (MWAA / Airflow)
 │   ├── Core Concepts
 │   │   ├── DAG — pipeline blueprint
-│   │   ├── Operators — task executors (GlueJobOperator, AthenaOperator)
-│   │   └── Sensors — condition waiters (S3KeySensor)
-│   ├── MWAA Environment
+│   │   ├── Operators — execute work (GlueJobOperator, AthenaOperator)
+│   │   └── Sensors — wait for conditions (S3KeySensor)
+│   ├── MWAA Management
 │   │   ├── requirements.txt for dependencies
-│   │   └── Plugins
-│   ├── Advanced Patterns
+│   │   ├── plugins.zip for custom plugins
+│   │   └── S3 DAG sync
+│   ├── Advanced DAG Features
 │   │   ├── XComs — cross-task data passing
 │   │   ├── Variables — environment config
-│   │   └── Error Handling — retries, callbacks, alerts
-│   └── Pipeline Flow: Sensor → Glue Job → Athena Query
+│   │   └── Retries & Callbacks — error handling, alerts
+│   └── Monitoring
+│       └── Airflow UI — task status, logs, grid view
 │
-├── 5. QUERYING & MANAGEMENT (Amazon Athena)
-│   ├── SQL on Iceberg — MERGE, UPDATE, Time Travel
-│   ├── Athena Workgroups — cost control, query limits
-│   └── Athena as Management Tool — catalog auditing, schema verification
+├── Query & Analytics (Athena)
+│   ├── Workgroups
+│   │   ├── Per-query data scan limits
+│   │   ├── Query isolation between teams
+│   │   └── CloudWatch cost metrics
+│   ├── Iceberg DML
+│   │   ├── MERGE INTO (upsert)
+│   │   ├── UPDATE / DELETE
+│   │   └── Time travel queries
+│   └── Data Dictionary
+│       └── Glue Catalog column comments
 │
-├── 6. VISUALIZATION (Amazon QuickSight)
-│   ├── Dataset connection to Athena / Iceberg
-│   ├── KPI Banners — Total Revenue, Late Delivery Rate
-│   ├── Charts — Daily Revenue Trend, Order Status Breakdown
-│   └── Data Health Dashboard — quality pass rate, storage volume
-│
-└── 7. DATA DOCUMENTATION & BEST PRACTICES
-    ├── Data Dictionary — business-to-technical schema translation
-    ├── Glue Table Comments — metadata enrichment
-    ├── Iceberg Compaction — periodic small-file merging
-    └── Source of Truth — Athena as audit layer
+└── Visualization (QuickSight)
+    ├── KPI dashboards
+    ├── Line charts, pie charts
+    └── Data Health gauge
 ```
-
----
 
 ### Visual Diagram
 
 ```mermaid
 graph TD
-    subgraph "1. Storage Layer"
-        S3["S3 Bucket"]
-        Bronze["Bronze / Raw Data"]
-        Silver["Silver / Cleaned Parquet"]
-        Gold["Gold / Iceberg Tables"]
-        S3 --> Bronze
-        Bronze -->|Glue ETL + DQDL| Silver
-        Silver -->|Athena MERGE| Gold
+    subgraph "Storage"
+        S3["S3 Data Lake"]
+        Bronze["Bronze Layer<br/>Raw CSVs"]
+        Silver["Silver Layer<br/>Cleaned Parquet"]
+        Gold["Gold Layer<br/>Iceberg Tables"]
     end
 
-    subgraph "2. Catalog & Governance"
-        Crawler["Glue Crawler"]
+    subgraph "Metadata & Security"
         Catalog["Glue Data Catalog"]
-        LF["Lake Formation"]
-        Crawler -->|discovers schema| Catalog
-        LF -->|column-level security| Catalog
+        Crawlers["Glue Crawlers"]
+        LF["Lake Formation<br/>Column Security"]
+        IAM["IAM Roles<br/>(Least-Privilege)"]
     end
 
-    subgraph "3. Orchestration"
-        MWAA["Amazon MWAA / Airflow"]
-        S3Key["S3KeySensor"]
-        GlueJob["GlueJobOperator"]
-        AthenaOp["AthenaOperator"]
-        MWAA --> S3Key
-        MWAA --> GlueJob
-        MWAA --> AthenaOp
+    subgraph "Transformation"
+        Glue["Glue ETL (PySpark)"]
+        DF["DynamicFrames"]
+        DQ["DQDL Quality Rules"]
+        Quarantine["Quarantine Pattern"]
     end
 
-    subgraph "4. Query & Visualize"
+    subgraph "Table Format"
+        Iceberg["Apache Iceberg"]
+        ACID["ACID Transactions"]
+        TimeTravel["Time Travel"]
+        Merge["MERGE / UPSERT"]
+    end
+
+    subgraph "Orchestration"
+        MWAA["Amazon MWAA"]
+        DAG["DAG"]
+        Ops["Operators & Sensors"]
+        XCom["XComs & Variables"]
+    end
+
+    subgraph "Query & BI"
         Athena["Amazon Athena"]
+        Workgroups["Workgroups<br/>Cost Controls"]
         QS["Amazon QuickSight"]
-        Athena -->|SQL on Iceberg| Gold
-        QS -->|dashboard| Athena
     end
 
-    Bronze --> Crawler
-    Silver -->|DQDL quarantine| S3
-    Gold --> Athena
-    GlueJob -->|transforms| Silver
-    AthenaOp -->|updates| Gold
+    S3 --> Bronze
+    Bronze --> Crawlers
+    Crawlers --> Catalog
+    Catalog --> Glue
+    Glue --> DF
+    Glue --> DQ
+    DQ --> Quarantine
+    Glue --> Silver
+    Silver --> Iceberg
+    Iceberg --> ACID
+    Iceberg --> TimeTravel
+    Iceberg --> Merge
+    Iceberg --> Gold
+    LF --> Catalog
+    IAM --> Glue
+    IAM --> Athena
+    MWAA --> DAG
+    DAG --> Ops
+    DAG --> XCom
+    MWAA --> Glue
+    Athena --> Workgroups
+    Athena --> Gold
+    QS --> Athena
+    Catalog --> Athena
 ```
 
 ---
 
-### Key Insights
+## Key Insights
 
-1. The Medallion Architecture (Bronze → Silver → Gold) provides a structured data lifecycle that separates raw ingestion from clean, business-ready datasets, enabling incremental quality enforcement at each layer.
+1. **Medallion Architecture is the organizing principle.** The Bronze/Silver/Gold layering is not just a folder convention — it enforces a separation of concerns where each layer has distinct quality guarantees and access patterns. Raw data never leaves Bronze, transformed data lives in Silver, and only business-ready aggregates reach Gold.
 
-2. AWS Glue Data Quality (DQDL) allows data engineers to define quality rules declaratively rather than writing custom validation code, reducing ETL maintenance overhead while ensuring consistency.
+2. **DQDL replaces custom validation code.** Declarative data quality rules eliminate hundreds of lines of Python for null checks, uniqueness constraints, and range validations. Rules are standardized, readable by analysts and engineers, and integrated directly into Glue's `EvaluateDataQuality` transform.
 
-3. The Quarantine Pattern — routing failed records to a Dead Letter S3 prefix instead of dropping them — is a critical production practice that preserves data for audit and reprocessing without polluting downstream tables.
+3. **The Quarantine Pattern prevents silent data loss.** Failing quality checks does not mean dropping records. Routing bad data to a Dead Letter S3 prefix with metadata columns (failed rules, timestamp, source path) creates an auditable trail and enables reprocessing after root cause correction.
 
-4. Apache Iceberg transforms Athena from a read-only query engine into a full data management layer by supporting ACID transactions, row-level upserts (MERGE), and time travel queries directly through SQL.
+4. **Apache Iceberg transforms S3 into a transactional store.** Without Iceberg, data lakes lack ACID transactions, row-level updates, and schema evolution. Iceberg's metadata layer adds these capabilities, making Athena a write-capable engine through `MERGE INTO`, `UPDATE`, and time travel queries.
 
-5. Amazon MWAA orchestration connects all pipeline stages through a single DAG, using Sensors to wait for conditions, Operators to execute work, and XComs to pass state between tasks — creating an end-to-end automated workflow.
+5. **Lake Formation fills the gap IAM cannot reach.** IAM policies control service-level access but cannot restrict specific columns or rows within a table. Lake Formation provides column-level and row-level security enforced at the query engine, essential for PII protection and compliance.
 
-6. Athena Workgroups serve as the primary cost-control mechanism, allowing administrators to enforce per-query data scan limits and isolate query environments between teams (e.g., engineering vs. analytics).
+6. **Airflow orchestration is the glue between services.** A single DAG chains S3 sensors, Glue job triggers, and Athena queries into an automated, scheduled pipeline. XComs pass runtime metadata (like JobRunId) between tasks, and retries with callbacks handle the inevitable failures.
 
-7. A Data Dictionary documented in the Glue Catalog (via table comments and column descriptions) acts as the translation layer between technical schemas and business terminology, directly impacting dataset discoverability and trust.
+7. **Cost control requires explicit boundaries.** Athena Workgroups with per-query data scan caps prevent runaway queries from incurring unexpected costs. Combined with S3 partitioning and columnar compression, these controls keep analytics affordable at scale.
 
 ---
 
-### Suggested Topic List
+## Suggested Topic List
 
-**Target Audience:** Junior Data Engineers
+| Day | Topics | Phase | Tag |
+|-----|--------|-------|-----|
+| Day 1 | S3 Storage & Medallion Architecture (Bronze/Silver/Gold) | Storage | — |
+| Day 2 | AWS Glue Data Catalog & Crawlers | Catalog & Security | — |
+| Day 3 | AWS Lake Formation & Column-Level Security | Catalog & Security | — |
+| Day 4 | Apache Iceberg — ACID Transactions on the Data Lake | Storage | — |
+| Day 5 | Hands-on: S3 Environment & Lake Formation Setup | Catalog & Security | — |
+| Day 6 | Glue PySpark — DynamicFrames vs DataFrames | ETL & Quality | — |
+| Day 7 | DQDL — Declarative Data Quality Rules | ETL & Quality | — |
+| Day 8 | Quarantine Pattern & Bad Data Handling | ETL & Quality | — |
+| Day 9 | Performance Tuning — Partitioning, Compression & Grouping | ETL & Quality | — |
+| Day 10 | Hands-on: Glue ETL Job with Data Quality | ETL & Quality | — |
+| Day 11 | Airflow Concepts — DAGs, Operators, Sensors | Orchestration | — |
+| Day 12 | Amazon MWAA Environment Setup & Dependencies | Orchestration | — |
+| Day 13 | Advanced DAGs — XComs, Variables, Error Handling | Orchestration | — |
+| Day 14 | Hands-on: Building an MWAA DAG | Orchestration | — |
+| Day 15 | IAM Roles & Least-Privilege Policies for Glue/Athena | Catalog & Security | [GAP] |
+| Day 16 | Athena Workgroups & Cost Management | Analytics & Governance | — |
+| Day 17 | SQL for Iceberg — MERGE, UPDATE, Time Travel | Analytics & Governance | — |
+| Day 18 | QuickSight Dashboards & Data Dictionary | Analytics & Governance | — |
+| Day 19 | Capstone — Part 1 (Storage, Catalog & ETL) | Capstone | — |
+| Day 20 | Capstone — Part 2 (Orchestration, Dashboard & Final Testing) | Capstone | — |
 
-**Prerequisites:** SQL foundations (DDL), basic AWS knowledge (IAM, S3), familiarity with Python
+**Phase distribution:** Storage (2), Catalog & Security (4), ETL & Quality (5), Orchestration (4), Analytics & Governance (3), Capstone (2)
 
-| Day / Module | Topic | Notes |
-|---|---|---|
-| Module 1 | S3 Storage & The Medallion Architecture | Foundational |
-| Module 2 | AWS Glue Data Catalog & Crawlers | Foundational |
-| Module 3 | AWS Lake Formation & Column-Level Security | Foundational |
-| Module 4 | Apache Iceberg — ACID Transactions on the Data Lake | Foundational |
-| Module 5 | AWS Glue PySpark — DynamicFrames vs DataFrames | Core ETL |
-| Module 6 | DQDL — Declarative Data Quality Rules | Core ETL |
-| Module 7 | Quarantine Pattern & Bad Data Handling | Core ETL |
-| Module 8 | Performance Tuning — Partitioning, Compression, Grouping | Optimization |
-| Module 9 | Airflow Concepts — DAGs, Operators, Sensors | Orchestration |
-| Module 10 | Amazon MWAA Environment Setup & Dependencies | Orchestration |
-| Module 11 | Advanced DAGs — XComs, Variables, Error Handling | Orchestration |
-| Module 12 | Athena Workgroups & Cost Management | Query & Manage |
-| Module 13 | SQL for Iceberg — MERGE, UPDATE, Time Travel | Query & Manage |
-| Module 14 | Amazon QuickSight Dashboards & KPIs | Visualization |
-| Module 15 | Data Dictionary & Metadata Best Practices | Governance |
-| Module 16 | [GAP] IAM Roles & Least-Privilege Policies for Glue/Athena | Security — mentioned but not detailed in sources |
-| Module 17 | [GAP] Glue Job Bookmarking & Incremental Processing | Advanced ETL — not covered in sources |
-| Module 18 | Capstone — Governed Data Lake for E-Commerce | Integration project |
+**Gaps identified:** IAM Least-Privilege Policies — not explicitly covered in the provided sources; extends beyond the course outline for production security hardening.
 
 ---
 

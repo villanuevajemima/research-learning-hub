@@ -10,3 +10,4 @@
 | 6 | 2026-06-01 | Course-level hands-on rubric (7 criteria) chosen over individual day rubrics | Covers all pipeline phases in a single evaluation framework at 75% passing threshold | AI (Instructional Designer) |
 | 7 | 2026-06-01 | Project completed — all skills finalized | All 6 skills complete. Owner confirmed at Checkpoint 3. | Owner |
 | 8 | 2026-06-01 | Visual aid markers removed from Skill 3 output; Skill 4 updated to auto-clean markers on approval | Owner confirmed final cleanup of all `✅ Yes` and `❌ No` visual aid markers after approval | Owner |
+| 9 | 2026-06-01 | Skill 1 rerun — added Phase column to topic list and [GAP] tag system | Owner requested pipeline-phase tagging for scannability; 6 phases: Storage, Catalog & Security, ETL & Quality, Orchestration, Analytics & Governance, Capstone | Owner |
